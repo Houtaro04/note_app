@@ -1,6 +1,6 @@
 import { createBrowserRouter, Outlet } from "react-router-dom";
-import Home from "../Pages/home";
-import Login from "../Pages/login";
+import Home from "../Pages/Home.jsx";
+import Login from "../Pages/Login.jsx";
 import AuthProvider from "../context/AuthProvider";
 import ProtectedRoute from "./ProtectedRoute";
 import ErrorPage from "../Pages/ErrorPage";
