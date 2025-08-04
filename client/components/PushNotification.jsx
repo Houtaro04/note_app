@@ -37,30 +37,29 @@ export default function PushNotification() {
             }
         };
 
-    useEffect(async () => {
+    useEffect(() => {
         const onNext = (data) => {
             setInvisible(false);
             const message = data?.data?.notification?.message;
-            setNotifications(message)
+            setNotifications(message);
             console.log('[PUSH_NOTIFICATION]', data);
-        }
-
-        let unsubscribe = () => {
-
         };
 
-        await new Promise((resolve, reject) => {
-            client.subscribe(
-                {
-                    query,
-                },
-                {
-                    next: onNext,
-                    error: reject,
-                    complete: resolve,
-                }
-            );
-        });
+        const dispose = client.subscribe(
+            { query },
+            {
+                next: onNext,
+                error: (err) => console.error('[PUSH_NOTIFICATION_ERROR]', err),
+                complete: () => console.log('[PUSH_NOTIFICATION_COMPLETE]'),
+            }
+        );
+
+        // Dọn dẹp khi unmount
+        return () => {
+            if (typeof dispose === 'function') {
+                dispose(); // chính là unsubscribe
+            }
+        };
     }, []);
 
     return (
